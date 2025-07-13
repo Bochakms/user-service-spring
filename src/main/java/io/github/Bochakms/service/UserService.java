@@ -1,11 +1,15 @@
 package io.github.Bochakms.service;
 
+import io.github.Bochakms.dto.UserEventMessage;
 import io.github.Bochakms.dto.UserRequest;
 import io.github.Bochakms.dto.UserResponse;
 import io.github.Bochakms.entity.User;
 import io.github.Bochakms.exeption.UserNotFoundException;
+import io.github.Bochakms.model.UserEvent;
 import io.github.Bochakms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final KafkaTemplate<String, UserEventMessage> kafkaTemplate;
 
     public UserResponse createUser(UserRequest userRequest) {
         User user = new User();
@@ -24,6 +29,11 @@ public class UserService {
         user.setPassword(userRequest.getPassword()); // In production, password should be encoded
         
         User savedUser = userRepository.save(user);
+                
+     // Отправка события в Kafka
+        kafkaTemplate.send("user-events", 
+            new UserEventMessage(UserEvent.CREATED, savedUser.getEmail()));
+        
         return mapToUserResponse(savedUser);
     }
 
@@ -53,10 +63,15 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new UserNotFoundException("User not found with id: " + id);
-        }
+       
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        
         userRepository.deleteById(id);
+        
+     // Отправка события в Kafka
+        kafkaTemplate.send("user-events", 
+            new UserEventMessage(UserEvent.DELETED, user.getEmail()));
     }
 
     private UserResponse mapToUserResponse(User user) {
