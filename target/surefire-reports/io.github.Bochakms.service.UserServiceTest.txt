@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: io.github.Bochakms.service.UserServiceTest
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.404 s -- in io.github.Bochakms.service.UserServiceTest

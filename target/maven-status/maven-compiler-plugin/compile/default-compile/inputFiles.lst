@@ -2,6 +2,8 @@ D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\exeption
 D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\dto\UserRequest.java
 D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\dto\UserResponse.java
 D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\exeption\UserNotFoundException.java
+D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\model\UserEvent.java
+D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\dto\UserEventMessage.java
 D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\entity\User.java
 D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\repository\UserRepository.java
 D:\Aston\intensive\user-service-spring\src\main\java\io\github\Bochakms\service\UserService.java
